@@ -1,0 +1,80 @@
+[project]
+name = "argueflow"
+version = "0.1.0"
+description = "An MLOps pipeline for argument classification, based on the Kaggle Feedback Prize"
+authors = [{ name = "Vladimir Smirnov", email = "voff.smirnoff@gmail.com" }]
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10.0",
+    "numpy>=2.2.3",
+    "pandas>=2.2.3",
+    "scikit-learn>=1.6.1",
+    "pandas",
+    "pytorch-lightning",
+    "scikit-learn",
+    "torch",
+    "transformers",
+    "wandb"
+]
+
+[tool.setuptools]
+packages = ["argueflow"]
+
+[project.optional-dependencies]
+dev = [
+    "fire>=0.7.0",
+    "ipykernel>=6.29.5",
+    "pre-commit>=4.1.0",
+]
+docs = [
+    "sphinx>=7.0.0",
+    "myst-nb",
+    "furo",
+    "sphinx-autodoc-typehints",
+    "sphinx-rtd-theme",
+]
+
+
+[tool.black]
+line-length = 90
+target-version = ["py37"]
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 90
+lines_after_imports = 2
+
+[tool.pylint.messages_control]
+disable = "C0330, C0326"
+
+[tool.pylint.format]
+max-line-length = 90
+
+[tool.flake8]
+max-line-length = 90
+ignore = ["E203", "E501", "W503", "B950"]
+max-complexity = 12
+select = ["B", "C", "E", "F", "W", "B9"]
+per-file-ignores = [
+    "**/__init__.py: F401",   # for easier imports to __init__ without __all__
+    "types.py: F401"          # file to define custom types
+]
+count = true
+
+[tool.nbqa.config]
+black = "pyproject.toml"
+isort = "pyproject.toml"
+flake8 = "pyproject.toml"
+
+[tool.nbqa.addopts]
+flake8 = ["--extend-ignore=E402"]
+
+[tool.nbqa.mutate]
+black = 1
+isort = 1
