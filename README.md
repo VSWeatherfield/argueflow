@@ -1,118 +1,88 @@
-# Byte-compiled / optimized / DLL files
+# ArgueFlow - MLOps pipeline for argument classification
 
-**pycache**/ _.py[cod] _$py.class
+## Постановка задачи
 
-# C extensions
+Выбранное соревнование: **Feedback Prize - Predicting Effective Arguments**
+(Kaggle).
 
-\*.so
+Задача: оценивать аргументы школьников 6–12 классов по трем категориям:
 
-# Distribution / packaging
+- **Effective**
+- **Adequate**
+- **Ineffective**
 
-.Python build/ develop-eggs/ dist/ downloads/ eggs/ .eggs/ lib/ lib64/ parts/
-sdist/ var/ wheels/ pip-wheel-metadata/ share/python-wheels/ _.egg-info/
-.installed.cfg _.egg MANIFEST
+Цель — помочь учащимся в подготовке к SAT и другим экзаменам, а также развить
+навыки письма.
 
-# PyInstaller
+## Данные
 
-# Usually these files are written by a python script from a template
+### Описание
 
-# before PyInstaller builds the exe, so as to inject date/other infos into it.
+Входные данные — эссе школьников 6–12 классов США, размеченные вручную по
+основным элементам аргументированного письма:
 
-_.manifest _.spec
+- **Lead** – введение, привлекающее внимание читателя
+- **Position** – мнение или вывод по главному вопросу
+- **Claim** – утверждение в поддержку позиции
+- **Counterclaim** – утверждение, опровергающее другое утверждение
+- **Rebuttal** – опровержение контраргумента
+- **Evidence** – примеры и идеи, подтверждающие аргументы
+- **Concluding Statement** – заключительное заявление
 
-# Installer logs
+### Формат данных
 
-pip-log.txt pip-delete-this-directory.txt
+Обучающая выборка (`train.csv`):
 
-# Unit test / coverage reports
+- `discourse_id` – ID элемента текста
+- `essay_id` – ID эссе
+- `discourse_text` – текст элемента
+- `discourse_type` – тип элемента
+- `discourse_effectiveness` – целевой рейтинг качества
 
-htmlcov/ .tox/ .nox/ .coverage .coverage._ .cache nosetests.xml coverage.xml
-_.cover \*.py,cover .hypothesis/ .pytest_cache/
+Пример данных:
 
-# Translations
+```csv
+discourse_id,essay_id,discourse_text,discourse_type,discourse_effectiveness
+0013cc385424,007ACE74B050,"Hi, i'm Isaac, i'm going to be writing about..",Lead,Adequate
+9704a709b505,007ACE74B050,"On my perspective, I think that the face is..",Position,Adequate
+c22adee811b6,007ACE74B050,"I think that the face is a natural landform..",Claim,Adequate
+```
 
-_.mo _.pot
+**Общий размер датасета** – 4195 файлов, 20.64 MB.
 
-# Django stuff:
+## Валидация
 
-\*.log local_settings.py db.sqlite3 db.sqlite3-journal
+Так как обучение занимает значительное время, **не использую K-Fold
+Cross-Validation**. Вместо этого:
 
-# Flask stuff:
+- **80/20** разделение данных для стандартного пайплайна обучения.
+- Если потребуется оценить качество модели в соревновании, обучу её на **всей
+  выборке** и сравню результат по public/private score.
 
-instance/ .webassets-cache
+## Метрики
 
-# Scrapy stuff:
+Оценка решений основана на **multi-class logarithmic loss** (log loss).
 
-.scrapy
+## Моделирование
 
-# Sphinx documentation
+### Бейзлайн
 
-docs/\_build/
+- **RoBERTa-base** + линейный head без доработок.
+- Альтернативы: **DistilBERT, DeBERTa-v3-small**.
 
-# PyBuilder
+### Основная модель
 
-target/
+- Подход на основе **классификации токенов (Token Classification)**.
+- **DeBERTa-v3-large + GRU + multi-dropout head**.
+- **AWP (Adversarial Weight Perturbation)** после 2-х эпох.
 
-# Jupyter Notebook
+Код обучения и инференса реплицируемого решения -
+[ссылка](https://www.kaggle.com/competitions/feedback-prize-effectiveness/discussion/347369).
 
-.ipynb_checkpoints
+## Внедрение
 
-# IPython
+Первичное видение модели:
 
-profile_default/ ipython_config.py
-
-# pyenv
-
-.python-version
-
-# pipenv
-
-# According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-
-# However, in case of collaboration, if having platform-specific dependencies or dependencies
-
-# having no cross-platform support, pipenv may install dependencies that don't work, or not
-
-# install all needed dependencies.
-
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-
-**pypackages**/
-
-# Celery stuff
-
-celerybeat-schedule celerybeat.pid
-
-# SageMath parsed files
-
-\*.sage.py
-
-# Environments
-
-.env .venv env/ venv/ ENV/ env.bak/ venv.bak/
-
-# Spyder project settings
-
-.spyderproject .spyproject
-
-# Rope project settings
-
-.ropeproject
-
-# mkdocs documentation
-
-/site
-
-# mypy
-
-.mypy_cache/ .dmypy.json dmypy.json
-
-# Pyre type checker
-
-.pyre/
-
-# custom
-
-/src mlruns/
+- Пакет с кодом для **обучения, валидации и инференса**.
+- **CLI-интерфейс** для запуска предсказаний.
+- **Docker-контейнер** для удобного развертывания.
