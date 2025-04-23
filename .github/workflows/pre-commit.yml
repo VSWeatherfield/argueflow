@@ -3,7 +3,7 @@ name: pre-commit
 on:
   pull_request:
   push:
-    branches: [master, gh-pages, interface]
+    branches: ["*"]
 
 jobs:
   pre-commit:
