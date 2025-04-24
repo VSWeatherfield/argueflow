@@ -34,8 +34,8 @@ docs = [
     "furo",
     "sphinx-autodoc-typehints",
     "sphinx-rtd-theme",
+    "autodocsumm"
 ]
-
 
 [tool.black]
 line-length = 90
