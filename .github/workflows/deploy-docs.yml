@@ -20,7 +20,7 @@ jobs:
       - name: Install docs dependencies
         run: |
           pip install uv
-          uv pip install -e .[docs]
+          uv pip install -e .[docs] --system
 
       - name: Build the documentation
         run: |
