@@ -27,6 +27,8 @@ dev = [
     "fire>=0.7.0",
     "ipykernel>=6.29.5",
     "pre-commit>=4.1.0",
+    "jupyterlab",
+    "dvc"
 ]
 docs = [
     "sphinx>=7.0.0",
