@@ -45,6 +45,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">argueflow package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#train.set_random_seed"><code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data_preparation.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data_preparation.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pseudo_labeling.load_pseudo_labeled_data"><code class="docutils literal notranslate"><span class="pre">load_pseudo_labeled_data()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -88,6 +91,65 @@ including utilities to load models, run predictions, and organize outputs.</p>
 <li><p><strong>seed</strong> (<em>int</em>) – The seed value to use.</p></li>
 <li><p><strong>use_cuda</strong> (<em>bool</em>) – Whether to apply CUDA-specific seed settings. Defaults to True.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-data_preparation">
+<dt class="sig sig-object py" id="data_preparation.format_discourses">
+<span class="sig-prename descclassname"><span class="pre">data_preparation.</span></span><span class="sig-name descname"><span class="pre">format_discourses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data_preparation.html#format_discourses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data_preparation.format_discourses" title="Link to this definition"></a></dt>
+<dd><p>Aggregates all discourse units in a single essay into one formatted string.</p>
+<p>Concatenates discourse texts prefixed by a custom [FP2] token,
+and stores associated metadata and labels for the essay.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – DataFrame containing all discourse rows for one essay.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single-row series with formatted text, labels, and metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data_preparation.load_data">
+<span class="sig-prename descclassname"><span class="pre">data_preparation.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/data_preparation.html#load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data_preparation.load_data" title="Link to this definition"></a></dt>
+<dd><p>Loads and merges training metadata with full essay texts.</p>
+<p>Reads train.csv and corresponding essay .txt files,
+attaches full essay text to each discourse row,
+and maps effectiveness labels to integers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Combined dataframe with discourse info, full text, and numeric labels.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-pseudo_labeling">
+<dt class="sig sig-object py" id="pseudo_labeling.load_pseudo_labeled_data">
+<span class="sig-prename descclassname"><span class="pre">pseudo_labeling.</span></span><span class="sig-name descname"><span class="pre">load_pseudo_labeled_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/pseudo_labeling.html#load_pseudo_labeled_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pseudo_labeling.load_pseudo_labeled_data" title="Link to this definition"></a></dt>
+<dd><p>Load and append pseudo-labeled data to the training dataframe.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>train_df</strong> (<em>pd.DataFrame</em>) – Original labeled training data.</p></li>
+<li><p><strong>fold</strong> (<em>int</em>) – Fold number (used in PL file naming).</p></li>
+<li><p><strong>model_name</strong> (<em>str</em>) – Name of the model used to generate pseudo-labels.</p></li>
+<li><p><strong>pl_dir</strong> (<em>Path</em>) – Directory where pseudo-labeled files are stored.</p></li>
+<li><p><strong>label_cols</strong> (<em>list</em>) – Columns containing soft labels (e.g., [‘Ineffective’, ‘Adequate’, ‘Effective’]).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Combined dataframe with pseudo-labeled rows appended.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>

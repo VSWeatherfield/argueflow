@@ -11,3 +11,15 @@ argueflow package
    :members:
    :undoc-members:
    :show-inheritance:
+
+
+.. automodule:: data_preparation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: pseudo_labeling
+   :members:
+   :undoc-members:
+   :show-inheritance:
