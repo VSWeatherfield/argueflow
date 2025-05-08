@@ -1,7 +1,7 @@
 argueflow package
 =================
 
-.. automodule:: infer
+.. automodule:: data_preparation
    :members:
    :undoc-members:
    :show-inheritance:
@@ -13,7 +13,13 @@ argueflow package
    :show-inheritance:
 
 
-.. automodule:: data_preparation
+.. automodule:: dataset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: model
    :members:
    :undoc-members:
    :show-inheritance:

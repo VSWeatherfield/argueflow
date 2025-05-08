@@ -1,0 +1,3 @@
+backbone: distilbert-base-uncased
+max_len: 512
+cls_token: "[FP2]"

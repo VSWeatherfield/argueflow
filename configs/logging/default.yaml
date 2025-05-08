@@ -1,0 +1,3 @@
+wandb: false
+log_dir: logs/
+verbosity: INFO

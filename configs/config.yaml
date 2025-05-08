@@ -1,0 +1,6 @@
+defaults:
+  - data_loading: default_paths
+  - model: distilbert
+  - training: default
+  - logging: default
+  - _self_

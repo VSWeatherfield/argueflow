@@ -1,0 +1,10 @@
+batch_size: 4
+num_workers: 2
+nepochs: 1
+lr: 1e-5
+device: cpu
+
+label_map:
+  Ineffective: 0
+  Adequate: 1
+  Effective: 2

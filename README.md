@@ -78,8 +78,8 @@ Cross-Validation**. Вместо этого:
 
 Код обучения и инференса реплицируемого решения -
 [ссылка](https://www.kaggle.com/competitions/feedback-prize-effectiveness/discussion/347369).
-Sphynx документация кода -
-[ссылка](https://vsweatherfield.github.io/argueflow/).
+\
+Sphynx документация кода - [ссылка](https://vsweatherfield.github.io/argueflow/).
 
 ## Внедрение
 

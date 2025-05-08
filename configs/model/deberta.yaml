@@ -1,0 +1,3 @@
+backbone: microsoft/deberta-v3-small
+max_len: 512
+cls_token: "[FP2]"

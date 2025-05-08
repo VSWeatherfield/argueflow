@@ -4,17 +4,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-DATA_DIR = Path(__file__).resolve().parent.parent / "data"
-RAW_DIR = DATA_DIR / "raw"
-PROCESSED_DIR = DATA_DIR / "processed"
-
-TRAIN_CSV_PATH = RAW_DIR / "train.csv"
-ESSAY_FOLDER = RAW_DIR / "train"
-
-CLS_TOKEN = "[FP2]"
-
-
-def load_data():
+def load_data(cfg):
     """
     Loads and merges training metadata with full essay texts.
 
@@ -25,11 +15,14 @@ def load_data():
     Returns:
         pd.DataFrame: Combined dataframe with discourse info, full text, and numeric labels.
     """
-    train_df = pd.read_csv(TRAIN_CSV_PATH)
+    train_csv_path = Path(cfg.raw_train_csv)
+    essay_folder = Path(cfg.raw_essay_folder)
+
+    train_df = pd.read_csv(train_csv_path)
 
     essay_texts = {
         path.stem: path.read_text(encoding="utf-8")
-        for path in tqdm(ESSAY_FOLDER.glob("*.txt"), desc="Reading essays")
+        for path in tqdm(essay_folder.glob("*.txt"), desc="Reading essays")
     }
     essay_df = pd.DataFrame(list(essay_texts.items()), columns=["essay_id", "text"])
 
@@ -41,7 +34,7 @@ def load_data():
     return train_df
 
 
-def format_discourses(df):
+def format_discourses(df, cls_token):
     """
     Aggregates all discourse units in a single essay into one formatted string.
 
@@ -59,7 +52,7 @@ def format_discourses(df):
     labels = "|".join(df["discourse_effectiveness"].tolist())
     discourses = "".join(
         [
-            f"{CLS_TOKEN}{row['discourse_type']}. {row['discourse_text']} "
+            f"{cls_token}{row['discourse_type']}. {row['discourse_text']} "
             for _, row in df.iterrows()
         ]
     ).strip()
