@@ -44,7 +44,6 @@
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">argueflow package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../modules.html#data_preparation.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modules.html#data_preparation.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../modules.html#train.train_one_epoch"><code class="docutils literal notranslate"><span class="pre">train_one_epoch()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modules.html#dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../modules.html#dataset.FeedbackPrize2Dataset.prepare_dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset.prepare_dataset()</span></code></a></li>
 </ul>
@@ -55,6 +54,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../modules.html#pseudo_labeling.load_pseudo_labeled_data"><code class="docutils literal notranslate"><span class="pre">load_pseudo_labeled_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules.html#utils.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -101,7 +101,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span> <span class="k">as</span> <span class="n">HFDataset</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.nn.utils.rnn</span><span class="w"> </span><span class="kn">import</span> <span class="n">pad_sequence</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dataset</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">transformers</span><span class="w"> </span><span class="kn">import</span> <span class="n">AutoTokenizer</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">argueflow.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_tokenizer</span>
 
 
 <div class="viewcode-block" id="FeedbackPrize2Dataset">
@@ -117,10 +118,8 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">cfg</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">backbone</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="o">.</span><span class="n">add_special_tokens</span><span class="p">(</span>
-            <span class="p">{</span><span class="s1">&#39;additional_special_tokens&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cls_token</span><span class="p">]}</span>
-        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">load_tokenizer</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cls_token_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cls_token</span><span class="p">)[</span><span class="s1">&#39;input_ids&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span> <span class="o">=</span> <span class="n">HFDataset</span><span class="o">.</span><span class="n">from_pandas</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
