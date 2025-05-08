@@ -15,7 +15,8 @@ import torch
 from datasets import Dataset as HFDataset
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset
-from transformers import AutoTokenizer
+
+from argueflow.utils import load_tokenizer
 
 
 class FeedbackPrize2Dataset(Dataset):
@@ -29,10 +30,8 @@ class FeedbackPrize2Dataset(Dataset):
 
     def __init__(self, df, cfg):
         self.cfg = cfg
-        self.tokenizer = AutoTokenizer.from_pretrained(cfg.model.backbone)
-        self.tokenizer.add_special_tokens(
-            {'additional_special_tokens': [cfg.model.cls_token]}
-        )
+
+        self.tokenizer = load_tokenizer(cfg)
         self.cls_token_id = self.tokenizer(cfg.model.cls_token)['input_ids'][1]
 
         self.dataset = HFDataset.from_pandas(df)

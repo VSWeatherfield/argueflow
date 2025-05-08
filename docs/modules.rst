@@ -7,12 +7,6 @@ argueflow package
    :show-inheritance:
 
 
-.. automodule:: train
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-
 .. automodule:: dataset
    :members:
    :undoc-members:
@@ -26,6 +20,18 @@ argueflow package
 
 
 .. automodule:: pseudo_labeling
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+.. automodule:: utils
    :members:
    :undoc-members:
    :show-inheritance:

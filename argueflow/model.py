@@ -1,17 +1,60 @@
 from torch import nn
-from transformers import AutoModel
+from transformers import AutoConfig, AutoModel
+
+from argueflow.utils import load_tokenizer
 
 
 class FeedbackPrize2Model(nn.Module):
     def __init__(self, cfg):
         super().__init__()
-        self.backbone = AutoModel.from_pretrained(cfg.backbone, config=cfg.config)
-        self.backbone.resize_token_embeddings(len(cfg.tokenizer))
-        self.dropout = nn.Dropout(0.3)
-        self.head = nn.Linear(cfg.config.hidden_size, 3)
+        self.cfg = cfg
 
-    def forward(self, input_ids, attention_mask):
+        self.tokenizer = load_tokenizer(cfg)
+        self.cls_token_id = self.tokenizer(cfg.model.cls_token)['input_ids'][1]
+
+        config = AutoConfig.from_pretrained(cfg.model.backbone)
+        config.output_hidden_states = False  # or True if you want them
+        config.hidden_dropout_prob = 0.1
+        config.attention_probs_dropout_prob = 0.1
+        self.config = config
+
+        self.backbone = AutoModel.from_pretrained(cfg.model.backbone, config=config)
+        self.backbone.resize_token_embeddings(len(self.tokenizer))
+
+        self.dropouts = nn.ModuleList([nn.Dropout(p) for p in [0.1, 0.2, 0.3, 0.4, 0.5]])
+        self.head = nn.Linear(self.config.hidden_size, 3)
+
+        self._init_weights(self.head)
+
+    def _init_weights(self, module):
+        if isinstance(module, nn.Linear):
+            nn.init.normal_(module.weight, mean=0.0, std=self.config.initializer_range)
+            if module.bias is not None:
+                nn.init.zeros_(module.bias)
+
+    def forward(self, input_ids, attention_mask, labels=None):
         outputs = self.backbone(input_ids=input_ids, attention_mask=attention_mask)
-        pooled_output = outputs.last_hidden_state[:, 0, :]  # [CLS] token
-        logits = self.head(self.dropout(pooled_output))
-        return logits
+        hidden_states = outputs.last_hidden_state
+
+        fp2_mask = input_ids == self.cls_token_id
+
+        logits_sum = 0
+        for dropout in self.dropouts:
+            dropped = dropout(hidden_states)
+            logits = self.head(dropped)
+            logits_sum += logits
+
+        logits = logits_sum / len(self.dropouts)
+
+        fp2_logits = logits[fp2_mask]
+
+        loss = None
+        if labels is not None:
+            labels_flat = labels[labels != -100]
+            if labels_flat.shape[0] != fp2_logits.shape[0]:
+                raise ValueError(
+                    f"Mismatch: {labels_flat.shape[0]} labels vs {fp2_logits.shape[0]} logits"
+                )
+            loss = nn.CrossEntropyLoss()(fp2_logits, labels_flat)
+
+        return loss, fp2_logits
