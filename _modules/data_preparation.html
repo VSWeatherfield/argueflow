@@ -42,9 +42,18 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../modules.html">argueflow package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../modules.html#train.set_random_seed"><code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modules.html#data_preparation.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="../modules.html#data_preparation.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules.html#train.train_one_epoch"><code class="docutils literal notranslate"><span class="pre">train_one_epoch()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules.html#dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules.html#dataset.FeedbackPrize2Dataset.prepare_dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset.prepare_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../modules.html#dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modules.html#model.FeedbackPrize2Model"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../modules.html#model.FeedbackPrize2Model.forward"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model.forward()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../modules.html#pseudo_labeling.load_pseudo_labeled_data"><code class="docutils literal notranslate"><span class="pre">load_pseudo_labeled_data()</span></code></a></li>
 </ul>
 </li>
@@ -81,19 +90,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 
-<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span>
-<span class="n">RAW_DIR</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">&quot;raw&quot;</span>
-<span class="n">PROCESSED_DIR</span> <span class="o">=</span> <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">&quot;processed&quot;</span>
-
-<span class="n">TRAIN_CSV_PATH</span> <span class="o">=</span> <span class="n">RAW_DIR</span> <span class="o">/</span> <span class="s2">&quot;train.csv&quot;</span>
-<span class="n">ESSAY_FOLDER</span> <span class="o">=</span> <span class="n">RAW_DIR</span> <span class="o">/</span> <span class="s2">&quot;train&quot;</span>
-
-<span class="n">CLS_TOKEN</span> <span class="o">=</span> <span class="s2">&quot;[FP2]&quot;</span>
-
-
 <div class="viewcode-block" id="load_data">
 <a class="viewcode-back" href="../modules.html#data_preparation.load_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="n">cfg</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads and merges training metadata with full essay texts.</span>
 
@@ -104,11 +103,14 @@
 <span class="sd">    Returns:</span>
 <span class="sd">        pd.DataFrame: Combined dataframe with discourse info, full text, and numeric labels.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">TRAIN_CSV_PATH</span><span class="p">)</span>
+    <span class="n">train_csv_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">raw_train_csv</span><span class="p">)</span>
+    <span class="n">essay_folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">raw_essay_folder</span><span class="p">)</span>
+
+    <span class="n">train_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">train_csv_path</span><span class="p">)</span>
 
     <span class="n">essay_texts</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">path</span><span class="o">.</span><span class="n">stem</span><span class="p">:</span> <span class="n">path</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">ESSAY_FOLDER</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.txt&quot;</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Reading essays&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">essay_folder</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;*.txt&quot;</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Reading essays&quot;</span><span class="p">)</span>
     <span class="p">}</span>
     <span class="n">essay_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">essay_texts</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;essay_id&quot;</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">])</span>
 
@@ -123,7 +125,7 @@
 
 <div class="viewcode-block" id="format_discourses">
 <a class="viewcode-back" href="../modules.html#data_preparation.format_discourses">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">format_discourses</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_discourses</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">cls_token</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Aggregates all discourse units in a single essay into one formatted string.</span>
 
@@ -141,7 +143,7 @@
     <span class="n">labels</span> <span class="o">=</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;discourse_effectiveness&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
     <span class="n">discourses</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="p">[</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">CLS_TOKEN</span><span class="si">}{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;discourse_type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;discourse_text&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cls_token</span><span class="si">}{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;discourse_type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;discourse_text&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> &quot;</span>
             <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span>
         <span class="p">]</span>
     <span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>

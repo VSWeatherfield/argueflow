@@ -42,9 +42,18 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">argueflow package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="modules.html#train.set_random_seed"><code class="docutils literal notranslate"><span class="pre">set_random_seed()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#data_preparation.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#data_preparation.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#train.train_one_epoch"><code class="docutils literal notranslate"><span class="pre">train_one_epoch()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#dataset.FeedbackPrize2Dataset.prepare_dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset.prepare_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#model.FeedbackPrize2Model"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#model.FeedbackPrize2Model.forward"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model.forward()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#pseudo_labeling.load_pseudo_labeled_data"><code class="docutils literal notranslate"><span class="pre">load_pseudo_labeled_data()</span></code></a></li>
 </ul>
 </li>
@@ -77,16 +86,23 @@
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#D"><strong>D</strong></a>
+ <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
  | <a href="#F"><strong>F</strong></a>
- | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
- | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  
 </div>
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#dataset.collate_fn">collate_fn() (in module dataset)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -98,26 +114,30 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    dataset
+
+      <ul>
+        <li><a href="modules.html#module-dataset">module</a>
+</li>
+      </ul></li>
+  </ul></td>
 </tr></table>
 
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#data_preparation.format_discourses">format_discourses() (in module data_preparation)</a>
+      <li><a href="modules.html#dataset.FeedbackPrize2Dataset">FeedbackPrize2Dataset (class in dataset)</a>
+</li>
+      <li><a href="modules.html#model.FeedbackPrize2Model">FeedbackPrize2Model (class in model)</a>
 </li>
   </ul></td>
-</tr></table>
-
-<h2 id="I">I</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    infer
-
-      <ul>
-        <li><a href="modules.html#module-infer">module</a>
+      <li><a href="modules.html#data_preparation.format_discourses">format_discourses() (in module data_preparation)</a>
 </li>
-      </ul></li>
+      <li><a href="modules.html#model.FeedbackPrize2Model.forward">forward() (model.FeedbackPrize2Model method)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -137,12 +157,21 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li>
+    model
+
+      <ul>
+        <li><a href="modules.html#module-model">module</a>
+</li>
+      </ul></li>
+      <li>
     module
 
       <ul>
         <li><a href="modules.html#module-data_preparation">data_preparation</a>
 </li>
-        <li><a href="modules.html#module-infer">infer</a>
+        <li><a href="modules.html#module-dataset">dataset</a>
+</li>
+        <li><a href="modules.html#module-model">model</a>
 </li>
         <li><a href="modules.html#module-pseudo_labeling">pseudo_labeling</a>
 </li>
@@ -155,6 +184,10 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#dataset.FeedbackPrize2Dataset.prepare_dataset">prepare_dataset() (dataset.FeedbackPrize2Dataset method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     pseudo_labeling
 
@@ -162,14 +195,6 @@
         <li><a href="modules.html#module-pseudo_labeling">module</a>
 </li>
       </ul></li>
-  </ul></td>
-</tr></table>
-
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="modules.html#train.set_random_seed">set_random_seed() (in module train)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -183,6 +208,10 @@
         <li><a href="modules.html#module-train">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#train.train_one_epoch">train_one_epoch() (in module train)</a>
+</li>
   </ul></td>
 </tr></table>
 
