@@ -16,7 +16,8 @@ dependencies = [
     "transformers",
     "wandb",
     "datasets",
-    "ipython"
+    "ipython",
+    "dvc[gdrive]",
 ]
 
 [tool.setuptools]

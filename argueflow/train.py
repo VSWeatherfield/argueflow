@@ -1,3 +1,4 @@
+import logging
 import os
 
 import hydra
@@ -8,7 +9,10 @@ from torch.utils.data import DataLoader
 
 from argueflow.dataset import FeedbackPrize2Dataset, collate_fn
 from argueflow.model import FeedbackPrize2Model
+from argueflow.utils import download_data
 
+
+log = logging.getLogger(__name__)
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -36,16 +40,19 @@ def train_one_epoch(model, dataloader, optimizer, device):
         total_fp2 += labels[labels != -100].size(0)
 
     avg_loss = total_loss / len(dataloader)
-    print(f"Train loss: {avg_loss:.4f} — FP2 tokens used: {total_fp2}")
+    log.info(f"Train loss: {avg_loss:.4f} — FP2 tokens used: {total_fp2}")
     return avg_loss
 
 
 @hydra.main(config_path="../configs", config_name="config", version_base="1.3")
 def main(cfg: DictConfig):
-    print("🔧 Loading data...")
+    log.info("Checking data availability...")
+    download_data()
+
+    log.info("Loading data...")
     df = pd.read_csv(cfg.data_loading.train_path)
 
-    print("🔧 Formatting dataset...")
+    log.info("Formatting dataset...")
     dataset = FeedbackPrize2Dataset(df, cfg)
     dataloader = DataLoader(
         dataset,
@@ -55,17 +62,17 @@ def main(cfg: DictConfig):
         collate_fn=collate_fn,
     )
 
-    print("🔧 Building model...")
+    log.info("Building model...")
     model = FeedbackPrize2Model(cfg).to(cfg.training.device)
 
-    print("🔧 Preparing optimizer...")
+    log.info("Preparing optimizer...")
     optimizer = AdamW(model.parameters(), lr=cfg.training.lr)
 
     for epoch in range(cfg.training.nepochs):
-        print(f"\n🚀 Epoch {epoch + 1}")
+        log.info(f"\n Epoch {epoch + 1}")
         train_one_epoch(model, dataloader, optimizer, cfg.training.device)
 
-    print("✅ Training complete.")
+    log.info("Training complete.")
 
 
 if __name__ == "__main__":
