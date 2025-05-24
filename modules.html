@@ -56,6 +56,9 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#pseudo_labeling.load_pseudo_labeled_data"><code class="docutils literal notranslate"><span class="pre">load_pseudo_labeled_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#train.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#train.train_one_epoch"><code class="docutils literal notranslate"><span class="pre">train_one_epoch()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#utils.download_data"><code class="docutils literal notranslate"><span class="pre">download_data()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#utils.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
 </ul>
 </li>
@@ -213,7 +216,25 @@ registered hooks while the latter silently ignores them.</p>
 </dl>
 </dd></dl>
 
+<dl class="py function" id="module-train">
+<dt class="sig sig-object py" id="train.main">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/train.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.main" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="train.train_one_epoch">
+<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">train_one_epoch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/train.html#train_one_epoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.train_one_epoch" title="Link to this definition"></a></dt>
+<dd><p>Train for one epoch, using only <cite>[FP2]</cite> tokens for loss calculation.</p>
+</dd></dl>
+
 <dl class="py function" id="module-utils">
+<dt class="sig sig-object py" id="utils.download_data">
+<span class="sig-prename descclassname"><span class="pre">utils.</span></span><span class="sig-name descname"><span class="pre">download_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils.html#download_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.download_data" title="Link to this definition"></a></dt>
+<dd><p>Downloads required data from the DVC remote if missing. Checks
+both raw and processed folders, and uses DVC CLI to pull data.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="utils.load_tokenizer">
 <span class="sig-prename descclassname"><span class="pre">utils.</span></span><span class="sig-name descname"><span class="pre">load_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils.html#load_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.load_tokenizer" title="Link to this definition"></a></dt>
 <dd></dd></dl>
