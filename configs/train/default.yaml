@@ -1,8 +1,8 @@
 batch_size: 2
-num_workers: 0
+num_workers: 7
 nepochs: 1
 lr: 1e-5
-device: cpu
+device: "cpu"
 
 label_map:
   Ineffective: 0

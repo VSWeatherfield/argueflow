@@ -1,6 +1,8 @@
 defaults:
-  - data_loading: default_paths
+  - data: default_paths
+  - logger: csv
   - model: distilbert
-  - training: default
-  - logging: default
+  - python_logging: setup
+  - train: default
+  - trainer: default
   - _self_

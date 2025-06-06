@@ -1,7 +1,7 @@
 from torch import nn
 from transformers import AutoConfig, AutoModel
 
-from argueflow.utils import load_tokenizer
+from argueflow.utils.tokenizer import load_tokenizer
 
 
 class FeedbackPrize2Model(nn.Module):
@@ -13,7 +13,7 @@ class FeedbackPrize2Model(nn.Module):
         self.cls_token_id = self.tokenizer(cfg.model.cls_token)['input_ids'][1]
 
         config = AutoConfig.from_pretrained(cfg.model.backbone)
-        config.output_hidden_states = False  # or True if you want them
+        config.output_hidden_states = False
         config.hidden_dropout_prob = 0.1
         config.attention_probs_dropout_prob = 0.1
         self.config = config

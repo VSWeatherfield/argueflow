@@ -85,3 +85,6 @@ flake8 = ["--extend-ignore=E402"]
 [tool.nbqa.mutate]
 black = 1
 isort = 1
+
+[project.scripts]
+argueflow = "argueflow.cli.commands:main"

@@ -1,5 +1,5 @@
 raw_train_csv: ../data/raw/train.csv
 raw_essay_folder: ../data/raw/train
-train_path: data/processed/train_prepared.csv
+processed_data_path: data/processed/train_prepared.csv
 test_csv: ../data/raw/test.csv
 sample_submission: ../data/raw/sample_submission.csv

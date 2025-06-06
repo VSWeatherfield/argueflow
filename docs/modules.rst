@@ -1,37 +1,81 @@
-argueflow package
-=================
+ArgueFlow Code Reference
+========================
 
-.. automodule:: data_preparation
+.. toctree::
+   :maxdepth: 2
+
+CLI
+---
+
+.. automodule:: argueflow.cli.commands
    :members:
    :undoc-members:
    :show-inheritance:
 
+Data
+----
 
-.. automodule:: dataset
+.. automodule:: argueflow.data.essay_loader
    :members:
    :undoc-members:
    :show-inheritance:
 
-
-.. automodule:: model
+.. automodule:: argueflow.data.tokenized_dataset
    :members:
    :undoc-members:
    :show-inheritance:
 
-
-.. automodule:: pseudo_labeling
+.. automodule:: argueflow.data.discourse_formatter
    :members:
    :undoc-members:
    :show-inheritance:
 
+Train
+-----
 
-.. automodule:: train
+.. automodule:: argueflow.train.train
    :members:
    :undoc-members:
    :show-inheritance:
 
+Eval
+----
 
-.. automodule:: utils
+.. automodule:: argueflow.eval.eval
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Infer
+-----
+
+.. automodule:: argueflow.infer.infer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Models
+------
+
+.. automodule:: argueflow.models.fp2_base_model
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Utils
+-----
+
+.. automodule:: argueflow.utils.dvc_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: argueflow.utils.tokenizer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: argueflow.utils.logging_utils
    :members:
    :undoc-members:
    :show-inheritance:

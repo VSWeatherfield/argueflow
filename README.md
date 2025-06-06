@@ -76,10 +76,55 @@ Cross-Validation**. Вместо этого:
 - **DeBERTa-v3-large + GRU + multi-dropout head**.
 - **AWP (Adversarial Weight Perturbation)** после 2-х эпох.
 
-Код обучения и инференса реплицируемого решения -
+Решение, которое реплицирую -
 [ссылка](https://www.kaggle.com/competitions/feedback-prize-effectiveness/discussion/347369).
 \
 Sphynx документация кода - [ссылка](https://vsweatherfield.github.io/argueflow/).
+
+## Setup
+
+### Установка зависимостей
+
+```bash
+pip install uv
+uv pip install -e .[dev] --system
+```
+
+```bash
+argueflow
+```
+
+```bash
+NAME
+    argueflow
+
+SYNOPSIS
+    argueflow COMMAND
+
+COMMANDS
+    COMMAND is one of the following:
+
+     download_data
+       Download data using DVC
+
+     eval
+       Evaluate the model
+
+     infer
+       Run inference
+
+     prepare_data
+       Data preprocessing placeholder
+
+     train
+       Train the model
+```
+
+### Train
+
+```bash
+argueflow train --cfg_path=configs --cfg_name=config
+```
 
 ## Внедрение
 

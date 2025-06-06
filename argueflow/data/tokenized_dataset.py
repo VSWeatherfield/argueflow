@@ -16,7 +16,7 @@ from datasets import Dataset as HFDataset
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset
 
-from argueflow.utils import load_tokenizer
+from argueflow.utils.tokenizer import load_tokenizer
 
 
 class FeedbackPrize2Dataset(Dataset):
@@ -50,7 +50,7 @@ class FeedbackPrize2Dataset(Dataset):
             max_length=self.cfg.model.max_len,
         )
         tokenized['labels'] = [
-            self.cfg.training.label_map[x] for x in example['label_list'].split('|')
+            self.cfg.train.label_map[x] for x in example['label_list'].split('|')
         ]
         return tokenized
 

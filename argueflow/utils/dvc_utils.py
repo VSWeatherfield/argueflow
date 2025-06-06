@@ -2,8 +2,6 @@ import logging
 import subprocess
 from pathlib import Path
 
-from transformers import AutoTokenizer
-
 
 log = logging.getLogger(__name__)
 
@@ -24,7 +22,7 @@ def download_data():
         log.info("All required data already exists.")
         return
 
-    print("Some data is missing — attempting to pull with DVC...")
+    log.error("Some data is missing — attempting to pull with DVC...")
     try:
         subprocess.run(["dvc", "pull"], check=True)
         log.info("Data successfully downloaded from remote.")
@@ -34,11 +32,3 @@ def download_data():
     except subprocess.CalledProcessError as e:
         log.error("DVC pull failed. Check remote config or credentials.")
         raise e
-
-
-def load_tokenizer(cfg):
-    log.info(f"Loading tokenizer from: {cfg.model.backbone}")
-    tokenizer = AutoTokenizer.from_pretrained(cfg.model.backbone)
-    tokenizer.add_special_tokens({'additional_special_tokens': [cfg.model.cls_token]})
-    log.info("Tokenizer loaded and [FP2] token added.")
-    return tokenizer
