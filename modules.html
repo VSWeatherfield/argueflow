@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>argueflow package &mdash; ArgueFlow  documentation</title>
+  <title>ArgueFlow Code Reference &mdash; ArgueFlow  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
@@ -43,23 +43,34 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">argueflow package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#data_preparation.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data_preparation.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dataset.FeedbackPrize2Dataset.prepare_dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset.prepare_dataset()</span></code></a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ArgueFlow Code Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cli">CLI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.data.essay_loader">Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.essay_loader.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.tokenized_dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.discourse_formatter.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#model.FeedbackPrize2Model"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model</span></code></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#model.FeedbackPrize2Model.forward"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model.forward()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#train">Train</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.eval.eval">Eval</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.eval.eval.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#pseudo_labeling.load_pseudo_labeled_data"><code class="docutils literal notranslate"><span class="pre">load_pseudo_labeled_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#train.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#train.train_one_epoch"><code class="docutils literal notranslate"><span class="pre">train_one_epoch()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#utils.download_data"><code class="docutils literal notranslate"><span class="pre">download_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#utils.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.infer.infer">Infer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.infer.infer.inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.models.fp2_base_model">Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.models.fp2_base_model.FeedbackPrize2Model"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.utils.dvc_utils">Utils</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.utils.dvc_utils.download_data"><code class="docutils literal notranslate"><span class="pre">download_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.utils.tokenizer.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.utils.logging_utils.setup_logging_from_cfg"><code class="docutils literal notranslate"><span class="pre">setup_logging_from_cfg()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -78,7 +89,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">argueflow package</li>
+      <li class="breadcrumb-item active">ArgueFlow Code Reference</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -88,11 +99,82 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-data_preparation">
-<span id="argueflow-package"></span><h1>argueflow package<a class="headerlink" href="#module-data_preparation" title="Link to this heading"></a></h1>
+  <section id="argueflow-code-reference">
+<h1>ArgueFlow Code Reference<a class="headerlink" href="#argueflow-code-reference" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<section id="cli">
+<h2>CLI<a class="headerlink" href="#cli" title="Link to this heading"></a></h2>
+</section>
+<section id="module-argueflow.data.essay_loader">
+<span id="data"></span><h2>Data<a class="headerlink" href="#module-argueflow.data.essay_loader" title="Link to this heading"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="data_preparation.format_discourses">
-<span class="sig-prename descclassname"><span class="pre">data_preparation.</span></span><span class="sig-name descname"><span class="pre">format_discourses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data_preparation.html#format_discourses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data_preparation.format_discourses" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="argueflow.data.essay_loader.load_data">
+<span class="sig-prename descclassname"><span class="pre">argueflow.data.essay_loader.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/essay_loader.html#load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.essay_loader.load_data" title="Link to this definition"></a></dt>
+<dd><p>Loads and merges training metadata with full essay texts.</p>
+<p>Reads train.csv and corresponding essay .txt files,
+attaches full essay text to each discourse row,
+and maps effectiveness labels to integers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Combined dataframe with discourse info, full text, and numeric labels.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-argueflow.data.tokenized_dataset">Dataset module for the Feedback Prize 2 task.</p>
+<p>This module handles the conversion of a pandas DataFrame into a PyTorch-compatible
+dataset with tokenized input suitable for transformer-based models.</p>
+<dl class="simple">
+<dt>Classes:</dt><dd><p>FeedbackPrize2Dataset: PyTorch Dataset that tokenizes text data and encodes labels.</p>
+</dd>
+<dt>Functions:</dt><dd><p>collate_fn: Custom collate function for dynamic padding of label sequences.</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="argueflow.data.tokenized_dataset.FeedbackPrize2Dataset">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">argueflow.data.tokenized_dataset.</span></span><span class="sig-name descname"><span class="pre">FeedbackPrize2Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/tokenized_dataset.html#FeedbackPrize2Dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
+<p>A PyTorch Dataset for tokenizing and preparing the Feedback Prize 2 data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Input dataframe with columns ‘discourses’ and ‘label_list’.</p></li>
+<li><p><strong>cfg</strong> (<em>Namespace</em>) – Configuration object containing model and training parameters.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="argueflow.data.tokenized_dataset.FeedbackPrize2Dataset.prepare_dataset">
+<span class="sig-name descname"><span class="pre">prepare_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">example</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/tokenized_dataset.html#FeedbackPrize2Dataset.prepare_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset.prepare_dataset" title="Link to this definition"></a></dt>
+<dd><p>Tokenizes text and converts label list to integer label IDs.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argueflow.data.tokenized_dataset.collate_fn">
+<span class="sig-prename descclassname"><span class="pre">argueflow.data.tokenized_dataset.</span></span><span class="sig-name descname"><span class="pre">collate_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/tokenized_dataset.html#collate_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.tokenized_dataset.collate_fn" title="Link to this definition"></a></dt>
+<dd><p>Collates a batch of examples, padding variable-length label sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>batch</strong> (<em>list</em>) – List of dicts from FeedbackPrize2Dataset.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Batched tensors for input_ids, attention_mask, and padded labels.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function" id="module-argueflow.data.discourse_formatter">
+<dt class="sig sig-object py" id="argueflow.data.discourse_formatter.format_discourses">
+<span class="sig-prename descclassname"><span class="pre">argueflow.data.discourse_formatter.</span></span><span class="sig-name descname"><span class="pre">format_discourses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/discourse_formatter.html#format_discourses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.discourse_formatter.format_discourses" title="Link to this definition"></a></dt>
 <dd><p>Aggregates all discourse units in a single essay into one formatted string.</p>
 <p>Concatenates discourse texts prefixed by a custom [FP2] token,
 and stores associated metadata and labels for the essay.</p>
@@ -109,77 +191,35 @@ and stores associated metadata and labels for the essay.</p>
 </dl>
 </dd></dl>
 
+</section>
+<section id="train">
+<h2>Train<a class="headerlink" href="#train" title="Link to this heading"></a></h2>
+</section>
+<section id="module-argueflow.eval.eval">
+<span id="eval"></span><h2>Eval<a class="headerlink" href="#module-argueflow.eval.eval" title="Link to this heading"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="data_preparation.load_data">
-<span class="sig-prename descclassname"><span class="pre">data_preparation.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/data_preparation.html#load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#data_preparation.load_data" title="Link to this definition"></a></dt>
-<dd><p>Loads and merges training metadata with full essay texts.</p>
-<p>Reads train.csv and corresponding essay .txt files,
-attaches full essay text to each discourse row,
-and maps effectiveness labels to integers.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Combined dataframe with discourse info, full text, and numeric labels.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
+<dt class="sig sig-object py" id="argueflow.eval.eval.evaluate">
+<span class="sig-prename descclassname"><span class="pre">argueflow.eval.eval.</span></span><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/eval/eval.html#evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.eval.eval.evaluate" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
-<p id="module-dataset">Dataset module for the Feedback Prize 2 task.</p>
-<p>This module handles the conversion of a pandas DataFrame into a PyTorch-compatible
-dataset with tokenized input suitable for transformer-based models.</p>
-<dl class="simple">
-<dt>Classes:</dt><dd><p>FeedbackPrize2Dataset: PyTorch Dataset that tokenizes text data and encodes labels.</p>
-</dd>
-<dt>Functions:</dt><dd><p>collate_fn: Custom collate function for dynamic padding of label sequences.</p>
-</dd>
-</dl>
+</section>
+<section id="module-argueflow.infer.infer">
+<span id="infer"></span><h2>Infer<a class="headerlink" href="#module-argueflow.infer.infer" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="argueflow.infer.infer.inference">
+<span class="sig-prename descclassname"><span class="pre">argueflow.infer.infer.</span></span><span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/infer/infer.html#inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.infer.infer.inference" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-argueflow.models.fp2_base_model">
+<span id="models"></span><h2>Models<a class="headerlink" href="#module-argueflow.models.fp2_base_model" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="dataset.FeedbackPrize2Dataset">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">dataset.</span></span><span class="sig-name descname"><span class="pre">FeedbackPrize2Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset.html#FeedbackPrize2Dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.FeedbackPrize2Dataset" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></p>
-<p>A PyTorch Dataset for tokenizing and preparing the Feedback Prize 2 data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – Input dataframe with columns ‘discourses’ and ‘label_list’.</p></li>
-<li><p><strong>cfg</strong> (<em>Namespace</em>) – Configuration object containing model and training parameters.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="dataset.FeedbackPrize2Dataset.prepare_dataset">
-<span class="sig-name descname"><span class="pre">prepare_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">example</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset.html#FeedbackPrize2Dataset.prepare_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.FeedbackPrize2Dataset.prepare_dataset" title="Link to this definition"></a></dt>
-<dd><p>Tokenizes text and converts label list to integer label IDs.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="dataset.collate_fn">
-<span class="sig-prename descclassname"><span class="pre">dataset.</span></span><span class="sig-name descname"><span class="pre">collate_fn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dataset.html#collate_fn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#dataset.collate_fn" title="Link to this definition"></a></dt>
-<dd><p>Collates a batch of examples, padding variable-length label sequences.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>batch</strong> (<em>list</em>) – List of dicts from FeedbackPrize2Dataset.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Batched tensors for input_ids, attention_mask, and padded labels.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py class" id="module-model">
-<dt class="sig sig-object py" id="model.FeedbackPrize2Model">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">model.</span></span><span class="sig-name descname"><span class="pre">FeedbackPrize2Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#FeedbackPrize2Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.FeedbackPrize2Model" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="argueflow.models.fp2_base_model.FeedbackPrize2Model">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">argueflow.models.fp2_base_model.</span></span><span class="sig-name descname"><span class="pre">FeedbackPrize2Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/models/fp2_base_model.html#FeedbackPrize2Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.models.fp2_base_model.FeedbackPrize2Model" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code></p>
 <dl class="py method">
-<dt class="sig sig-object py" id="model.FeedbackPrize2Model.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#FeedbackPrize2Model.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#model.FeedbackPrize2Model.forward" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="argueflow.models.fp2_base_model.FeedbackPrize2Model.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attention_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/models/fp2_base_model.html#FeedbackPrize2Model.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.models.fp2_base_model.FeedbackPrize2Model.forward" title="Link to this definition"></a></dt>
 <dd><p>Define the computation performed at every call.</p>
 <p>Should be overridden by all subclasses.</p>
 <div class="admonition note">
@@ -193,52 +233,28 @@ registered hooks while the latter silently ignores them.</p>
 
 </dd></dl>
 
-<dl class="py function" id="module-pseudo_labeling">
-<dt class="sig sig-object py" id="pseudo_labeling.load_pseudo_labeled_data">
-<span class="sig-prename descclassname"><span class="pre">pseudo_labeling.</span></span><span class="sig-name descname"><span class="pre">load_pseudo_labeled_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">train_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pl_dir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="reference internal" href="_modules/pseudo_labeling.html#load_pseudo_labeled_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pseudo_labeling.load_pseudo_labeled_data" title="Link to this definition"></a></dt>
-<dd><p>Load and append pseudo-labeled data to the training dataframe.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>train_df</strong> (<em>pd.DataFrame</em>) – Original labeled training data.</p></li>
-<li><p><strong>fold</strong> (<em>int</em>) – Fold number (used in PL file naming).</p></li>
-<li><p><strong>model_name</strong> (<em>str</em>) – Name of the model used to generate pseudo-labels.</p></li>
-<li><p><strong>pl_dir</strong> (<em>Path</em>) – Directory where pseudo-labeled files are stored.</p></li>
-<li><p><strong>label_cols</strong> (<em>list</em>) – Columns containing soft labels (e.g., [‘Ineffective’, ‘Adequate’, ‘Effective’]).</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Combined dataframe with pseudo-labeled rows appended.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function" id="module-train">
-<dt class="sig sig-object py" id="train.main">
-<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DictConfig</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/train.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.main" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
+</section>
+<section id="module-argueflow.utils.dvc_utils">
+<span id="utils"></span><h2>Utils<a class="headerlink" href="#module-argueflow.utils.dvc_utils" title="Link to this heading"></a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="train.train_one_epoch">
-<span class="sig-prename descclassname"><span class="pre">train.</span></span><span class="sig-name descname"><span class="pre">train_one_epoch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataloader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/train.html#train_one_epoch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#train.train_one_epoch" title="Link to this definition"></a></dt>
-<dd><p>Train for one epoch, using only <cite>[FP2]</cite> tokens for loss calculation.</p>
-</dd></dl>
-
-<dl class="py function" id="module-utils">
-<dt class="sig sig-object py" id="utils.download_data">
-<span class="sig-prename descclassname"><span class="pre">utils.</span></span><span class="sig-name descname"><span class="pre">download_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils.html#download_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.download_data" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py" id="argueflow.utils.dvc_utils.download_data">
+<span class="sig-prename descclassname"><span class="pre">argueflow.utils.dvc_utils.</span></span><span class="sig-name descname"><span class="pre">download_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/utils/dvc_utils.html#download_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.utils.dvc_utils.download_data" title="Link to this definition"></a></dt>
 <dd><p>Downloads required data from the DVC remote if missing. Checks
 both raw and processed folders, and uses DVC CLI to pull data.</p>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="utils.load_tokenizer">
-<span class="sig-prename descclassname"><span class="pre">utils.</span></span><span class="sig-name descname"><span class="pre">load_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/utils.html#load_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#utils.load_tokenizer" title="Link to this definition"></a></dt>
+<dl class="py function" id="module-argueflow.utils.tokenizer">
+<dt class="sig sig-object py" id="argueflow.utils.tokenizer.load_tokenizer">
+<span class="sig-prename descclassname"><span class="pre">argueflow.utils.tokenizer.</span></span><span class="sig-name descname"><span class="pre">load_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/utils/tokenizer.html#load_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.utils.tokenizer.load_tokenizer" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<dl class="py function" id="module-argueflow.utils.logging_utils">
+<dt class="sig sig-object py" id="argueflow.utils.logging_utils.setup_logging_from_cfg">
+<span class="sig-prename descclassname"><span class="pre">argueflow.utils.logging_utils.</span></span><span class="sig-name descname"><span class="pre">setup_logging_from_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/utils/logging_utils.html#setup_logging_from_cfg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.utils.logging_utils.setup_logging_from_cfg" title="Link to this definition"></a></dt>
+<dd><p>Initialize logging using Hydra-style config in <cite>cfg.python_logging</cite></p>
+</dd></dl>
+
+</section>
 </section>
 
 
