@@ -3,3 +3,4 @@
 ['remote "gdrive_remote"']
     url = gdrive://1VU6yAb_JOfzjwbruUFBeEvR00GXOnWio
     gdrive_use_service_account = true
+    gdrive_service_account_json_file_path =

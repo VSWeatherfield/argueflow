@@ -83,18 +83,11 @@ Sphynx документация кода - [ссылка](https://vsweatherfield
 
 ## Setup
 
-### Установка зависимостей
+### Использование
 
 ```bash
-pip install uv
-uv pip install -e .[dev] --system
-```
+> argueflow
 
-```bash
-argueflow
-```
-
-```bash
 NAME
     argueflow
 
@@ -118,6 +111,19 @@ COMMANDS
 
      train
        Train the model
+```
+
+### Установка зависимостей
+
+```bash
+git clone https://github.com/VSWeatherfield/argueflow.git
+cd argueflow
+
+conda create -n argueflow python=3.12
+conda activate argueflow
+
+pip install uv
+uv pip install -e .[dev] --system
 ```
 
 ### Train

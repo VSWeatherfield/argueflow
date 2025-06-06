@@ -1,7 +1,7 @@
 import logging
 
 import pytorch_lightning as pl
-from transformers import AdamW
+from torch.optim import AdamW
 
 from argueflow.models.fp2_base_model import FeedbackPrize2Model
 

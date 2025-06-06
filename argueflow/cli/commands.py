@@ -15,7 +15,6 @@ log = logging.getLogger(__name__)
 
 
 class CLI:
-
     def _run_with_config(self, fn, cfg_path="../../configs", cfg_name="config"):
         """Generic command runner with Hydra Compose + Logging"""
         with initialize(config_path=cfg_path, version_base="1.3"):
