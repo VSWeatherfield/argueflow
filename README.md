@@ -124,6 +124,9 @@ conda activate argueflow
 
 pip install uv
 uv pip install -e .[dev] --system
+
+mkdir -p logs
+argueflow download_data
 ```
 
 ### Train
