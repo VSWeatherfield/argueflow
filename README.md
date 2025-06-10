@@ -129,6 +129,11 @@ mkdir -p logs
 argueflow download_data
 ```
 
+💡 Для скачивания данных через DVC с Google Drive потребуется приватный ключ
+gdrive-creds.json, путь к которому указывается в поле
+gdrive_service_account_json_file_path в .dvc/config. Напишите мне в Telegram —
+@vsweatherfield, чтобы его получить.
+
 ### Train
 
 ```bash
