@@ -37,7 +37,7 @@ class CLI:
 
     def download_data(self, cfg_path="../../configs", cfg_name="config"):
         """Download data using DVC"""
-        self._run_with_config(lambda cfg: download_data(), cfg_path, cfg_name)
+        self._run_with_config(download_data, cfg_path, cfg_name)
 
     def prepare_data(self):
         """Data preprocessing placeholder"""

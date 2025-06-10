@@ -1,0 +1,48 @@
+name: run-pytest
+
+on:
+  pull_request:
+  push:
+    branches: ["*"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install uv and project dependencies
+        run: |
+          pip install uv
+          uv pip install -e .[dev] --system
+
+      - name: Save GDrive service account JSON
+        run: |
+          mkdir -p ~/.secrets
+          echo "${{ secrets.GDRIVE_SERVICE_ACCOUNT_JSON }}" > ~/.secrets/gdrive-service-account.json
+
+      - name: Patch DVC config with service account
+        run: |
+          dvc config --local core.remote gdrive_remote
+          dvc config --local remote.gdrive_remote.url gdrive://1VU6yAb_JOfzjwbruUFBeEvR00GXOnWio
+          dvc config --local remote.gdrive_remote.gdrive_use_service_account true
+          dvc config --local remote.gdrive_remote.gdrive_service_account_json_file_path "$HOME/.secrets/gdrive-service-account.json"
+
+      - name: Create logs directory
+        run: mkdir -p logs
+
+      - name: Run tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          pytest tests/ --cov=argueflow --cov-report=xml -v
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
