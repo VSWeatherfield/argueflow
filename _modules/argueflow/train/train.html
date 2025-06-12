@@ -43,11 +43,9 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">ArgueFlow Code Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../modules.html#cli">CLI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../modules.html#module-argueflow.data.essay_loader">Data</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../modules.html#argueflow.data.essay_loader.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../modules.html#module-argueflow.data.tokenized_dataset">Data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules.html#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules.html#argueflow.data.tokenized_dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../../modules.html#argueflow.data.discourse_formatter.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../modules.html#module-argueflow.train.train">Train</a><ul>
@@ -122,7 +120,7 @@
 <a class="viewcode-back" href="../../../modules.html#argueflow.train.train.train">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="n">cfg</span><span class="p">:</span> <span class="n">DictConfig</span><span class="p">):</span>
     <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Checking data availability...&quot;</span><span class="p">)</span>
-    <span class="n">download_data</span><span class="p">()</span>
+    <span class="n">download_data</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
 
     <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initializing Lightning Data Module...&quot;</span><span class="p">)</span>
     <span class="n">dm</span> <span class="o">=</span> <span class="n">FeedbackPrize2DataModule</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>

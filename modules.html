@@ -45,11 +45,9 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ArgueFlow Code Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#cli">CLI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.data.essay_loader">Data</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.essay_loader.load_data"><code class="docutils literal notranslate"><span class="pre">load_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.data.tokenized_dataset">Data</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.data.tokenized_dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.discourse_formatter.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-argueflow.train.train">Train</a><ul>
@@ -109,26 +107,9 @@
 <section id="cli">
 <h2>CLI<a class="headerlink" href="#cli" title="Link to this heading"></a></h2>
 </section>
-<section id="module-argueflow.data.essay_loader">
-<span id="data"></span><h2>Data<a class="headerlink" href="#module-argueflow.data.essay_loader" title="Link to this heading"></a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="argueflow.data.essay_loader.load_data">
-<span class="sig-prename descclassname"><span class="pre">argueflow.data.essay_loader.</span></span><span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/essay_loader.html#load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.essay_loader.load_data" title="Link to this definition"></a></dt>
-<dd><p>Loads and merges training metadata with full essay texts.</p>
-<p>Reads train.csv and corresponding essay .txt files,
-attaches full essay text to each discourse row,
-and maps effectiveness labels to integers.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Combined dataframe with discourse info, full text, and numeric labels.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-<p id="module-argueflow.data.tokenized_dataset">Dataset module for the Feedback Prize 2 task.</p>
+<section id="module-argueflow.data.tokenized_dataset">
+<span id="data"></span><h2>Data<a class="headerlink" href="#module-argueflow.data.tokenized_dataset" title="Link to this heading"></a></h2>
+<p>Dataset module for the Feedback Prize 2 task.</p>
 <p>This module handles the conversion of a pandas DataFrame into a PyTorch-compatible
 dataset with tokenized input suitable for transformer-based models.</p>
 <dl class="simple">
@@ -171,25 +152,6 @@ dataset with tokenized input suitable for transformer-based models.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function" id="module-argueflow.data.discourse_formatter">
-<dt class="sig sig-object py" id="argueflow.data.discourse_formatter.format_discourses">
-<span class="sig-prename descclassname"><span class="pre">argueflow.data.discourse_formatter.</span></span><span class="sig-name descname"><span class="pre">format_discourses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/discourse_formatter.html#format_discourses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.discourse_formatter.format_discourses" title="Link to this definition"></a></dt>
-<dd><p>Aggregates all discourse units in a single essay into one formatted string.</p>
-<p>Concatenates discourse texts prefixed by a custom [FP2] token,
-and stores associated metadata and labels for the essay.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – DataFrame containing all discourse rows for one essay.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>A single-row series with formatted text, labels, and metadata.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>pd.Series</p>
 </dd>
 </dl>
 </dd></dl>
