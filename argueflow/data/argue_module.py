@@ -22,7 +22,7 @@ class FeedbackPrize2DataModule(LightningDataModule):
     def prepare_data(self):
         log.info("Checking and downloading data if needed...")
 
-        download_data()
+        download_data(self.cfg)
 
     def setup(self, stage=None):
         if stage == "fit" or stage is None:
@@ -31,12 +31,12 @@ class FeedbackPrize2DataModule(LightningDataModule):
             self.train_dataset = FeedbackPrize2Dataset(df, self.cfg)
 
             # Stub for validation — currently identical to train
-            self.val_dataset = FeedbackPrize2Dataset(df.copy(), self.cfg)
+            # self.val_dataset = FeedbackPrize2Dataset(df.copy(), self.cfg)
 
-        if stage == "test":
-            log.info("Setting up test dataset... (stub)")
-            # Stub: could load test.csv later if needed
-            self.test_dataset = None
+        # if stage == "test":
+        #     log.info("Setting up test dataset... (stub)")
+        #     # Stub: could load test.csv later if needed
+        #     self.test_dataset = None
 
     def train_dataloader(self):
         return DataLoader(

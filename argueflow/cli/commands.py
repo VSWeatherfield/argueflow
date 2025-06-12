@@ -1,9 +1,9 @@
 import logging
-import logging.config
 
 import fire
 from hydra import compose, initialize
 
+from argueflow.data.data_preparation import prepare_data
 from argueflow.eval.eval import evaluate
 from argueflow.infer.infer import inference
 from argueflow.train.train import train
@@ -23,6 +23,14 @@ class CLI:
             log.info(f"Running `{fn.__name__}` with config: {cfg_name}")
             return fn(cfg)
 
+    def download_data(self, cfg_path="../../configs", cfg_name="config"):
+        """Download data using DVC"""
+        self._run_with_config(download_data, cfg_path, cfg_name)
+
+    def prepare_data(self, cfg_path="../../configs", cfg_name="config"):
+        """Format raw data into prepared one"""
+        self._run_with_config(prepare_data, cfg_path, cfg_name)
+
     def train(self, cfg_path="../../configs", cfg_name="config"):
         """Train the model"""
         self._run_with_config(train, cfg_path, cfg_name)
@@ -34,14 +42,6 @@ class CLI:
     def infer(self, cfg_path="../../configs", cfg_name="config"):
         """Run inference"""
         self._run_with_config(inference, cfg_path, cfg_name)
-
-    def download_data(self, cfg_path="../../configs", cfg_name="config"):
-        """Download data using DVC"""
-        self._run_with_config(download_data, cfg_path, cfg_name)
-
-    def prepare_data(self):
-        """Data preprocessing placeholder"""
-        log.info("No preprocessing function defined yet.")
 
 
 def main():

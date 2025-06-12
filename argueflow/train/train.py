@@ -17,7 +17,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def train(cfg: DictConfig):
     log.info("Checking data availability...")
-    download_data()
+    download_data(cfg)
 
     log.info("Initializing Lightning Data Module...")
     dm = FeedbackPrize2DataModule(cfg)
