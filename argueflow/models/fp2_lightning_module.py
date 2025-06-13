@@ -16,7 +16,7 @@ class FeedbackPrize2LightningModule(pl.LightningModule):
         super().__init__()
         self.cfg = cfg
         self.model = FeedbackPrize2Model(cfg)
-        self.save_hyperparameters(cfg)
+        # self.save_hyperparameters(cfg)
 
         self.val_f1 = torchmetrics.F1Score(
             task="multiclass",
@@ -61,6 +61,15 @@ class FeedbackPrize2LightningModule(pl.LightningModule):
         labels_flat = labels[labels != -100]
 
         self.val_f1.update(preds, labels_flat)
+
+    def predict_step(self, batch, batch_idx):
+        input_ids = batch["input_ids"]
+        attention_mask = batch["attention_mask"]
+
+        _, logits = self(input_ids=input_ids, attention_mask=attention_mask)
+        preds = torch.argmax(logits, dim=-1)
+
+        return preds
 
     def on_validation_epoch_end(self):
         f1 = self.val_f1.compute()

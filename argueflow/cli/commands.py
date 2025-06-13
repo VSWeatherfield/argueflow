@@ -4,7 +4,6 @@ import fire
 from hydra import compose, initialize
 
 from argueflow.data.data_preparation import prepare_data
-from argueflow.eval.eval import evaluate
 from argueflow.infer.infer import inference
 from argueflow.train.train import train
 from argueflow.utils.dvc_utils import download_data
@@ -34,10 +33,6 @@ class CLI:
     def train(self, cfg_path="../../configs", cfg_name="config"):
         """Train the model"""
         self._run_with_config(train, cfg_path, cfg_name)
-
-    def eval(self, cfg_path="../../configs", cfg_name="config"):
-        """Evaluate the model"""
-        self._run_with_config(evaluate, cfg_path, cfg_name)
 
     def infer(self, cfg_path="../../configs", cfg_name="config"):
         """Run inference"""

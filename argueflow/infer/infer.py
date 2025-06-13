@@ -4,6 +4,7 @@ from pathlib import Path
 
 import pandas as pd
 import pytorch_lightning as pl
+import torch
 from torch.utils.data import DataLoader
 
 from argueflow.data.tokenized_dataset import FeedbackPrize2Dataset, collate_fn
@@ -17,7 +18,24 @@ def inference(cfg):
     test_df = pd.read_csv(cfg.data.raw_test_csv)
     log.info(f"Loaded test set with {len(test_df)} rows.")
 
-    # tokenizer = load_tokenizer(cfg)
+    cls_token = cfg.model.cls_token
+    discourses_df = (
+        test_df.groupby("essay_id")["discourse_text"]
+        .apply(lambda x: f" {cls_token} ".join(x))
+        .reset_index()
+        .rename(columns={"discourse_text": "discourses"})
+    )
+
+    label_counts = test_df.groupby("essay_id").size().reset_index(name="count")
+    label_counts["label_list"] = label_counts["count"].apply(
+        lambda n: "|".join(["Adequate"] * n)
+    )
+
+    test_df = pd.merge(
+        discourses_df, label_counts[["essay_id", "label_list"]], on="essay_id"
+    )
+    log.info(f"Loaded test set with {len(test_df)} rows.")
+
     dataset = FeedbackPrize2Dataset(test_df, cfg)
 
     dataloader = DataLoader(
@@ -29,19 +47,18 @@ def inference(cfg):
     )
 
     model = FeedbackPrize2LightningModule.load_from_checkpoint(
-        cfg.infer.checkpoint_path, cfg=cfg
+        cfg.infer.ckpt_path, cfg=cfg
     )
     model.eval()
-    model.to(cfg.trainer.accelerator)
+    model.to('cuda')
 
-    trainer = pl.Trainer(accelerator=cfg.trainer.accelerator, devices=1)
+    trainer = pl.Trainer(accelerator='cuda', devices=1)
     predictions = trainer.predict(model, dataloaders=dataloader)
-    flat_preds = [pred for batch in predictions for pred in batch]
+
+    flat_preds = torch.cat(predictions).tolist()
 
     label_map_inv = {v: k for k, v in cfg.train.label_map.items()}
-    test_df["label_list"] = [
-        "|".join(label_map_inv[i.item()] for i in row) for row in flat_preds
-    ]
+    test_df["label_list"] = ["|".join(label_map_inv[i] for i in flat_preds)]
 
     output_path = Path(cfg.data.output_predictions_csv)
     output_path.parent.mkdir(parents=True, exist_ok=True)

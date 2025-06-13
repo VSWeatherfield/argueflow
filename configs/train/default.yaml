@@ -1,6 +1,6 @@
 batch_size: 64
 num_workers: 4
-nepochs: 10
+nepochs: 2
 lr: 1e-5
 
 num_classes: 3

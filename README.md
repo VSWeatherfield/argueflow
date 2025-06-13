@@ -158,6 +158,16 @@ nepochs: 10
 lr: 1e-5
 ```
 
+## Инференс модели
+
+### Infer
+
+Инференс лучшей модели:
+
+```bash
+argueflow infer
+```
+
 ## Архитектура проекта
 
 ```bash
@@ -175,10 +185,8 @@ lr: 1e-5
 │   │   ├── argue_module.py         # файл с lightning data module
 │   │   ├── data_preparation.py     # препоцессинг данных для подачи в датасет
 │   │   └── tokenized_dataset.py    # dataset class, прогон данных через токенизатор
-│   ├── eval
-│   │   └── eval.py
 │   ├── infer
-│   │   └── infer.py
+│   │   └── infer.py                # инференс модели
 │   ├── models
 │   │   ├── fp2_base_model.py       # класс модели
 │   │   └── fp2_lightning_module.py # файл с model lightning module
@@ -208,6 +216,8 @@ lr: 1e-5
 │   └── raw.dvc                     # dvc файл подготовленных данных
 ├── notebooks
 ├── pyproject.toml                  # конфигурационный файл зависимостей проекта
+├── models
+│   └── best_model.ckpt.dvc         # dvc файл чекпоинта модели
 ├── tests
 │   ├── test_cli.py                 # тест вызова корректных команд
 │   └── test_download_data.py       # тест загрузки данных в случае их отсутствия
@@ -295,14 +305,11 @@ COMMANDS
      download_data
        Download data using DVC
 
-     eval
-       Evaluate the model
-
      infer
        Run inference
 
      prepare_data
-       Data preprocessing placeholder
+       Format raw data into prepared one
 
      train
        Train the model
