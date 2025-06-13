@@ -16,7 +16,6 @@ class FeedbackPrize2LightningModule(pl.LightningModule):
         super().__init__()
         self.cfg = cfg
         self.model = FeedbackPrize2Model(cfg)
-        # self.save_hyperparameters(cfg)
 
         self.val_f1 = torchmetrics.F1Score(
             task="multiclass",

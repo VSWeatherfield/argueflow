@@ -1,7 +1,9 @@
 defaults:
   - data: default_paths
   - infer: checkpoint_path
-  - logger: csv
+  - logger:
+      - csv_logger
+      - mlflow_logger
   - model: distilbert
   - python_logging: setup
   - train: default
