@@ -1,0 +1,1 @@
+ckpt_path: ${oc.env:PWD}/models/epoch=6-step=413.ckpt

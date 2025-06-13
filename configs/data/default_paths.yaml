@@ -1,5 +1,5 @@
 raw_train_csv: ${oc.env:PWD}/data/raw/train.csv
 raw_essay_folder: ${oc.env:PWD}/data/raw/train
 processed_data_path: ${oc.env:PWD}/data/processed/train_prepared.csv
-test_csv: ${oc.env:PWD}/data/raw/test.csv
+raw_test_csv: ${oc.env:PWD}/data/raw/test.csv
 sample_submission: ${oc.env:PWD}/data/raw/sample_submission.csv

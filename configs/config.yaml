@@ -1,5 +1,6 @@
 defaults:
   - data: default_paths
+  - infer: checkpoint_path
   - logger: csv
   - model: distilbert
   - python_logging: setup
