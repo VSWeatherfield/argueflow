@@ -134,7 +134,8 @@ dataset with tokenized input suitable for transformer-based models.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="argueflow.data.tokenized_dataset.FeedbackPrize2Dataset.prepare_dataset">
 <span class="sig-name descname"><span class="pre">prepare_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">example</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/tokenized_dataset.html#FeedbackPrize2Dataset.prepare_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset.prepare_dataset" title="Link to this definition"></a></dt>
-<dd><p>Tokenizes text and converts label list to integer label IDs.</p>
+<dd><p>Tokenizes text and converts label list to integer label IDs.
+Aligns labels to [FP2] tokens using a fallback strategy if misaligned.</p>
 </dd></dl>
 
 </dd></dl>
