@@ -52,10 +52,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../modules.html#argueflow.train.train.train"><code class="docutils literal notranslate"><span class="pre">train()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../../modules.html#module-argueflow.eval.eval">Eval</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../../modules.html#argueflow.eval.eval.evaluate"><code class="docutils literal notranslate"><span class="pre">evaluate()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../modules.html#eval">Eval</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../modules.html#module-argueflow.infer.infer">Infer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../modules.html#argueflow.infer.infer.inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
 </ul>
@@ -105,6 +102,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pytorch_lightning</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pl</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataLoader</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">argueflow.data.tokenized_dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeedbackPrize2Dataset</span><span class="p">,</span> <span class="n">collate_fn</span>
@@ -120,7 +118,24 @@
     <span class="n">test_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">raw_test_csv</span><span class="p">)</span>
     <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded test set with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
 
-    <span class="c1"># tokenizer = load_tokenizer(cfg)</span>
+    <span class="n">cls_token</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">cls_token</span>
+    <span class="n">discourses_df</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">test_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;essay_id&quot;</span><span class="p">)[</span><span class="s2">&quot;discourse_text&quot;</span><span class="p">]</span>
+        <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">cls_token</span><span class="si">}</span><span class="s2"> &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+        <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;discourse_text&quot;</span><span class="p">:</span> <span class="s2">&quot;discourses&quot;</span><span class="p">})</span>
+    <span class="p">)</span>
+
+    <span class="n">label_counts</span> <span class="o">=</span> <span class="n">test_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;essay_id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
+    <span class="n">label_counts</span><span class="p">[</span><span class="s2">&quot;label_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_counts</span><span class="p">[</span><span class="s2">&quot;count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;Adequate&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">test_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+        <span class="n">discourses_df</span><span class="p">,</span> <span class="n">label_counts</span><span class="p">[[</span><span class="s2">&quot;essay_id&quot;</span><span class="p">,</span> <span class="s2">&quot;label_list&quot;</span><span class="p">]],</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;essay_id&quot;</span>
+    <span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded test set with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">test_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> rows.&quot;</span><span class="p">)</span>
+
     <span class="n">dataset</span> <span class="o">=</span> <span class="n">FeedbackPrize2Dataset</span><span class="p">(</span><span class="n">test_df</span><span class="p">,</span> <span class="n">cfg</span><span class="p">)</span>
 
     <span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
@@ -132,19 +147,18 @@
     <span class="p">)</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">FeedbackPrize2LightningModule</span><span class="o">.</span><span class="n">load_from_checkpoint</span><span class="p">(</span>
-        <span class="n">cfg</span><span class="o">.</span><span class="n">infer</span><span class="o">.</span><span class="n">checkpoint_path</span><span class="p">,</span> <span class="n">cfg</span><span class="o">=</span><span class="n">cfg</span>
+        <span class="n">cfg</span><span class="o">.</span><span class="n">infer</span><span class="o">.</span><span class="n">ckpt_path</span><span class="p">,</span> <span class="n">cfg</span><span class="o">=</span><span class="n">cfg</span>
     <span class="p">)</span>
     <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">accelerator</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span><span class="p">)</span>
 
-    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">trainer</span><span class="o">.</span><span class="n">accelerator</span><span class="p">,</span> <span class="n">devices</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="n">devices</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">dataloaders</span><span class="o">=</span><span class="n">dataloader</span><span class="p">)</span>
-    <span class="n">flat_preds</span> <span class="o">=</span> <span class="p">[</span><span class="n">pred</span> <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">predictions</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">]</span>
+
+    <span class="n">flat_preds</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
     <span class="n">label_map_inv</span> <span class="o">=</span> <span class="p">{</span><span class="n">v</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">label_map</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-    <span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;label_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label_map_inv</span><span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">item</span><span class="p">()]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">flat_preds</span>
-    <span class="p">]</span>
+    <span class="n">test_df</span><span class="p">[</span><span class="s2">&quot;label_list&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;|&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">label_map_inv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">flat_preds</span><span class="p">)]</span>
 
     <span class="n">output_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">output_predictions_csv</span><span class="p">)</span>
     <span class="n">output_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
