@@ -10,7 +10,8 @@ dependencies = [
     "pandas==2.2.3",
     "pytorch-lightning==2.5.0.post0",
     "torch==2.6.0",
-    "transformers==4.49.0"
+    "transformers==4.49.0",
+    "torchmetrics"
 ]
 
 [tool.setuptools]

@@ -1,6 +1,7 @@
 import logging
 
 import pandas as pd
+import torch
 from pytorch_lightning import LightningDataModule
 from torch.utils.data import DataLoader
 
@@ -21,22 +22,21 @@ class FeedbackPrize2DataModule(LightningDataModule):
 
     def prepare_data(self):
         log.info("Checking and downloading data if needed...")
-
         download_data(self.cfg)
 
     def setup(self, stage=None):
         if stage == "fit" or stage is None:
             log.info("Loading and preparing training data...")
             df = pd.read_csv(self.cfg.data.processed_data_path)
-            self.train_dataset = FeedbackPrize2Dataset(df, self.cfg)
+            full_dataset = FeedbackPrize2Dataset(df, self.cfg)
 
-            # Stub for validation — currently identical to train
-            # self.val_dataset = FeedbackPrize2Dataset(df.copy(), self.cfg)
-
-        # if stage == "test":
-        #     log.info("Setting up test dataset... (stub)")
-        #     # Stub: could load test.csv later if needed
-        #     self.test_dataset = None
+            val_size = int(0.1 * len(full_dataset))
+            train_size = len(full_dataset) - val_size
+            self.train_dataset, self.val_dataset = torch.utils.data.random_split(
+                full_dataset,
+                [train_size, val_size],
+                generator=torch.Generator().manual_seed(42),
+            )
 
     def train_dataloader(self):
         return DataLoader(

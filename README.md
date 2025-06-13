@@ -55,7 +55,6 @@
 
 - python 3.11 или выше
 - conda (miniconda) для управления окружениями
-- uv для управления зависимостями
 
 ### Установка зависимостей
 
@@ -69,6 +68,7 @@ conda create -n argueflow python=3.12
 conda activate argueflow
 
 # Установка зависимостей
+pip install uv
 uv pip install -e .[dev] --system
 
 # Установка pre-commit hooks
@@ -152,8 +152,8 @@ argueflow train --cfg_path=configs --cfg_name=config
 Основные параметры обучения находятся в configs/train/default.yaml:
 
 ```yaml
-batch_size: 16
-num_workers: 8
+batch_size: 64
+num_workers: 4
 nepochs: 10
 lr: 1e-5
 ```
@@ -173,9 +173,8 @@ lr: 1e-5
 │   │   └── commands.py             # сборный файл со всеми коммандами
 │   ├── data
 │   │   ├── argue_module.py         # файл с lightning data module
-│   │   ├── discourse_formatter.py  # препоцессинг данных для подачи в модель
-│   │   ├── essay_loader.py         # загрузка данных в память
-│   │   └── tokenized_dataset.py    # dataset class, реализация
+│   │   ├── data_preparation.py     # препоцессинг данных для подачи в датасет
+│   │   └── tokenized_dataset.py    # dataset class, прогон данных через токенизатор
 │   ├── eval
 │   │   └── eval.py
 │   ├── infer

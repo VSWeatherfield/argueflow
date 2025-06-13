@@ -1,9 +1,9 @@
-batch_size: 16
-num_workers: 8
+batch_size: 64
+num_workers: 4
 nepochs: 10
 lr: 1e-5
-device: "gpu"
 
+num_classes: 3
 label_map:
   Ineffective: 0
   Adequate: 1

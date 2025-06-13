@@ -42,6 +42,7 @@ class FeedbackPrize2Dataset(Dataset):
     def prepare_dataset(self, example):
         """
         Tokenizes text and converts label list to integer label IDs.
+        Aligns labels to [FP2] tokens using a fallback strategy if misaligned.
         """
         tokenized = self.tokenizer(
             example['discourses'],
@@ -49,9 +50,21 @@ class FeedbackPrize2Dataset(Dataset):
             truncation=True,
             max_length=self.cfg.model.max_len,
         )
+
         tokenized['labels'] = [
             self.cfg.train.label_map[x] for x in example['label_list'].split('|')
         ]
+
+        cls_token_id = self.cls_token_id
+        fp2_count = tokenized['input_ids'].count(cls_token_id)
+        label_count = len(tokenized['labels'])
+
+        if fp2_count != label_count:
+            if label_count > fp2_count:
+                tokenized['labels'] = tokenized['labels'][:fp2_count]
+            elif label_count < fp2_count:
+                tokenized['labels'] += [-100] * (fp2_count - label_count)
+
         return tokenized
 
     def __len__(self):
