@@ -36,6 +36,7 @@ dev = [
     "pytest==8.2.0",
     "pytest-cov==5.0.0",
     "mlflow==2.13.0",
+    "gitpython",
 ]
 docs = [
     "autodocsumm==0.2.14",
