@@ -7,3 +7,4 @@ enable_model_summary: true
 deterministic: true
 precision: 16-mixed
 strategy: ddp
+defice: "cuda"

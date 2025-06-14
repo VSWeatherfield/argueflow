@@ -1,7 +1,9 @@
 batch_size: 64
 num_workers: 4
+seed: 42
 nepochs: 2
 lr: 1e-5
+val_split: 0.1
 
 num_classes: 3
 label_map:

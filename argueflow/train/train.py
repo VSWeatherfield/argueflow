@@ -1,3 +1,9 @@
+"""
+Inference script for Feedback Prize 2 task.
+
+Loads a trained model from checkpoint and runs prediction on the test set.
+"""
+
 import logging
 import os
 
@@ -19,6 +25,19 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 def train(cfg: DictConfig):
+    """
+    Run inference on the raw test set using a trained model checkpoint.
+
+    Args:
+        cfg (DictConfig): Hydra configuration containing paths, model params, and loader settings.
+
+    Workflow:
+    - Load and preprocess the test CSV
+    - Construct discourses and dummy labels
+    - Load the dataset and model checkpoint
+    - Run inference using a Lightning `Trainer`
+    - Save predictions to CSV
+    """
     log.info("Checking data availability...")
     download_data(cfg)
 

@@ -1,3 +1,9 @@
+"""
+Inference script for Feedback Prize 2 task.
+
+Loads a trained model from checkpoint and runs prediction on the test set.
+"""
+
 import logging
 import os
 from pathlib import Path
@@ -12,6 +18,19 @@ from argueflow.models.fp2_lightning_module import FeedbackPrize2LightningModule
 
 
 def inference(cfg):
+    """
+    Run inference on the raw test set using a trained model checkpoint.
+
+    Args:
+        cfg (DictConfig): Hydra configuration containing paths, model params, and loader settings.
+
+    Workflow:
+    - Load and preprocess the test CSV
+    - Construct discourses and dummy labels
+    - Load the dataset and model checkpoint
+    - Run inference using a Lightning `Trainer`
+    - Save predictions to CSV
+    """
     log = logging.getLogger(__name__)
     os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -50,9 +69,9 @@ def inference(cfg):
         cfg.infer.ckpt_path, cfg=cfg
     )
     model.eval()
-    model.to('cuda')
+    model.to(cfg.trainer.device)
 
-    trainer = pl.Trainer(accelerator='cuda', devices=1)
+    trainer = pl.Trainer(accelerator=cfg.trainer.accelerator, devices=cfg.trainer.devices)
     predictions = trainer.predict(model, dataloaders=dataloader)
 
     flat_preds = torch.cat(predictions).tolist()
