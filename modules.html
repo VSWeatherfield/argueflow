@@ -160,10 +160,24 @@ Aligns labels to [FP2] tokens using a fallback strategy if misaligned.</p>
 </section>
 <section id="module-argueflow.infer.infer">
 <span id="infer"></span><h2>Infer<a class="headerlink" href="#module-argueflow.infer.infer" title="Link to this heading"></a></h2>
+<p>Inference script for Feedback Prize 2 task.</p>
+<p>Loads a trained model from checkpoint and runs prediction on the test set.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="argueflow.infer.infer.inference">
 <span class="sig-prename descclassname"><span class="pre">argueflow.infer.infer.</span></span><span class="sig-name descname"><span class="pre">inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/infer/infer.html#inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.infer.infer.inference" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Run inference on the raw test set using a trained model checkpoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>DictConfig</em>) – Hydra configuration containing paths, model params, and loader settings.</p>
+</dd>
+</dl>
+<p>Workflow:
+- Load and preprocess the test CSV
+- Construct discourses and dummy labels
+- Load the dataset and model checkpoint
+- Run inference using a Lightning <cite>Trainer</cite>
+- Save predictions to CSV</p>
+</dd></dl>
 
 </section>
 <section id="module-argueflow.models.fp2_base_model">
