@@ -15,33 +15,17 @@ CLI
 Data
 ----
 
-.. automodule:: argueflow.data.essay_loader
+.. automodule:: argueflow.data.argue_module
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: argueflow.data.data_preparation
    :members:
    :undoc-members:
    :show-inheritance:
 
 .. automodule:: argueflow.data.tokenized_dataset
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: argueflow.data.discourse_formatter
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Train
------
-
-.. automodule:: argueflow.train.train
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Eval
-----
-
-.. automodule:: argueflow.eval.eval
    :members:
    :undoc-members:
    :show-inheritance:
@@ -62,6 +46,14 @@ Models
    :undoc-members:
    :show-inheritance:
 
+Train
+-----
+
+.. automodule:: argueflow.train.train
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Utils
 -----
 
@@ -70,12 +62,12 @@ Utils
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: argueflow.utils.tokenizer
+.. automodule:: argueflow.utils.logging_utils
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: argueflow.utils.logging_utils
+.. automodule:: argueflow.utils.tokenizer
    :members:
    :undoc-members:
    :show-inheritance:

@@ -45,13 +45,15 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ArgueFlow Code Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#cli">CLI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.data.tokenized_dataset">Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-argueflow.data.argue_module">Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.argue_module.FeedbackPrize2DataModule"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2DataModule</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.data_preparation.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.data_preparation.prepare_data"><code class="docutils literal notranslate"><span class="pre">prepare_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.data.data_preparation.read_and_merge_essays"><code class="docutils literal notranslate"><span class="pre">read_and_merge_essays()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.data.tokenized_dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#train">Train</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#eval">Eval</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-argueflow.infer.infer">Infer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.infer.infer.inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
 </ul>
@@ -60,10 +62,11 @@
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.models.fp2_base_model.FeedbackPrize2Model"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#train">Train</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-argueflow.utils.dvc_utils">Utils</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.utils.dvc_utils.download_data"><code class="docutils literal notranslate"><span class="pre">download_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#argueflow.utils.tokenizer.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#argueflow.utils.logging_utils.setup_logging_from_cfg"><code class="docutils literal notranslate"><span class="pre">setup_logging_from_cfg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#argueflow.utils.tokenizer.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -101,9 +104,102 @@
 <section id="cli">
 <h2>CLI<a class="headerlink" href="#cli" title="Link to this heading"></a></h2>
 </section>
-<section id="module-argueflow.data.tokenized_dataset">
-<span id="data"></span><h2>Data<a class="headerlink" href="#module-argueflow.data.tokenized_dataset" title="Link to this heading"></a></h2>
-<p>Dataset module for the Feedback Prize 2 task.</p>
+<section id="module-argueflow.data.argue_module">
+<span id="data"></span><h2>Data<a class="headerlink" href="#module-argueflow.data.argue_module" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="argueflow.data.argue_module.FeedbackPrize2DataModule">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">argueflow.data.argue_module.</span></span><span class="sig-name descname"><span class="pre">FeedbackPrize2DataModule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/argue_module.html#FeedbackPrize2DataModule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.argue_module.FeedbackPrize2DataModule" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LightningDataModule</span></code></p>
+<p>PyTorch Lightning DataModule for the Feedback Prize 2 dataset.</p>
+<p>Handles:
+- downloading (via DVC)
+- loading and splitting data
+- preparing train/val/test DataLoaders</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="argueflow.data.argue_module.FeedbackPrize2DataModule.prepare_data">
+<span class="sig-name descname"><span class="pre">prepare_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/argue_module.html#FeedbackPrize2DataModule.prepare_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.argue_module.FeedbackPrize2DataModule.prepare_data" title="Link to this definition"></a></dt>
+<dd><p>Download data if necessary using DVC.
+Does not split or tokenize (non-mutable operations only).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argueflow.data.argue_module.FeedbackPrize2DataModule.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/argue_module.html#FeedbackPrize2DataModule.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.argue_module.FeedbackPrize2DataModule.setup" title="Link to this definition"></a></dt>
+<dd><p>Split and tokenize data based on training stage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>stage</strong> (<em>str</em>) – One of [‘fit’, ‘test’, None’]. Used by Lightning internally.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argueflow.data.argue_module.FeedbackPrize2DataModule.train_dataloader">
+<span class="sig-name descname"><span class="pre">train_dataloader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/argue_module.html#FeedbackPrize2DataModule.train_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.argue_module.FeedbackPrize2DataModule.train_dataloader" title="Link to this definition"></a></dt>
+<dd><p>Returns DataLoader for training.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="argueflow.data.argue_module.FeedbackPrize2DataModule.val_dataloader">
+<span class="sig-name descname"><span class="pre">val_dataloader</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/argue_module.html#FeedbackPrize2DataModule.val_dataloader"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.argue_module.FeedbackPrize2DataModule.val_dataloader" title="Link to this definition"></a></dt>
+<dd><p>Returns DataLoader for validation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function" id="module-argueflow.data.data_preparation">
+<dt class="sig sig-object py" id="argueflow.data.data_preparation.format_discourses">
+<span class="sig-prename descclassname"><span class="pre">argueflow.data.data_preparation.</span></span><span class="sig-name descname"><span class="pre">format_discourses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls_token</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/data_preparation.html#format_discourses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.data_preparation.format_discourses" title="Link to this definition"></a></dt>
+<dd><p>Aggregates all discourse units in a single essay into one formatted string.</p>
+<p>Concatenates discourse texts prefixed by a custom [FP2] token,
+and stores associated metadata and labels for the essay.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pd.DataFrame</em>) – DataFrame containing all discourse rows for one essay.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A single-row series with formatted text, labels, and metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argueflow.data.data_preparation.prepare_data">
+<span class="sig-prename descclassname"><span class="pre">argueflow.data.data_preparation.</span></span><span class="sig-name descname"><span class="pre">prepare_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/data_preparation.html#prepare_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.data_preparation.prepare_data" title="Link to this definition"></a></dt>
+<dd><p>Prepares and saves the training dataset for model input.</p>
+<p>This function checks if the processed data file already exists.
+If not, it:
+- Loads raw training data and essay texts.
+- Formats discourse segments by inserting classification tokens.
+- Saves the processed and formatted data as a CSV.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cfg</strong> (<em>DictConfig</em>) – Configuration object containing paths and model settings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="argueflow.data.data_preparation.read_and_merge_essays">
+<span class="sig-prename descclassname"><span class="pre">argueflow.data.data_preparation.</span></span><span class="sig-name descname"><span class="pre">read_and_merge_essays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/data/data_preparation.html#read_and_merge_essays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.data.data_preparation.read_and_merge_essays" title="Link to this definition"></a></dt>
+<dd><p>Reads and merges training metadata with full essay texts.</p>
+<p>Reads train.csv and corresponding essay.txt files,
+attaches full essay text to each discourse row,
+and maps effectiveness labels to integers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Combined dataframe with discourse info, full text, and numeric labels.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p id="module-argueflow.data.tokenized_dataset">Dataset module for the Feedback Prize 2 task.</p>
 <p>This module handles the conversion of a pandas DataFrame into a PyTorch-compatible
 dataset with tokenized input suitable for transformer-based models.</p>
 <dl class="simple">
@@ -152,12 +248,6 @@ Aligns labels to [FP2] tokens using a fallback strategy if misaligned.</p>
 </dd></dl>
 
 </section>
-<section id="train">
-<h2>Train<a class="headerlink" href="#train" title="Link to this heading"></a></h2>
-</section>
-<section id="eval">
-<h2>Eval<a class="headerlink" href="#eval" title="Link to this heading"></a></h2>
-</section>
 <section id="module-argueflow.infer.infer">
 <span id="infer"></span><h2>Infer<a class="headerlink" href="#module-argueflow.infer.infer" title="Link to this heading"></a></h2>
 <p>Inference script for Feedback Prize 2 task.</p>
@@ -203,6 +293,9 @@ registered hooks while the latter silently ignores them.</p>
 </dd></dl>
 
 </section>
+<section id="train">
+<h2>Train<a class="headerlink" href="#train" title="Link to this heading"></a></h2>
+</section>
 <section id="module-argueflow.utils.dvc_utils">
 <span id="utils"></span><h2>Utils<a class="headerlink" href="#module-argueflow.utils.dvc_utils" title="Link to this heading"></a></h2>
 <dl class="py function">
@@ -212,16 +305,16 @@ registered hooks while the latter silently ignores them.</p>
 both raw and processed folders, and uses DVC CLI to pull data.</p>
 </dd></dl>
 
-<dl class="py function" id="module-argueflow.utils.tokenizer">
-<dt class="sig sig-object py" id="argueflow.utils.tokenizer.load_tokenizer">
-<span class="sig-prename descclassname"><span class="pre">argueflow.utils.tokenizer.</span></span><span class="sig-name descname"><span class="pre">load_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/utils/tokenizer.html#load_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.utils.tokenizer.load_tokenizer" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
 <dl class="py function" id="module-argueflow.utils.logging_utils">
 <dt class="sig sig-object py" id="argueflow.utils.logging_utils.setup_logging_from_cfg">
 <span class="sig-prename descclassname"><span class="pre">argueflow.utils.logging_utils.</span></span><span class="sig-name descname"><span class="pre">setup_logging_from_cfg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/utils/logging_utils.html#setup_logging_from_cfg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.utils.logging_utils.setup_logging_from_cfg" title="Link to this definition"></a></dt>
 <dd><p>Initialize logging using Hydra-style config in <cite>cfg.python_logging</cite></p>
 </dd></dl>
+
+<dl class="py function" id="module-argueflow.utils.tokenizer">
+<dt class="sig sig-object py" id="argueflow.utils.tokenizer.load_tokenizer">
+<span class="sig-prename descclassname"><span class="pre">argueflow.utils.tokenizer.</span></span><span class="sig-name descname"><span class="pre">load_tokenizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/argueflow/utils/tokenizer.html#load_tokenizer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#argueflow.utils.tokenizer.load_tokenizer" title="Link to this definition"></a></dt>
+<dd></dd></dl>
 
 </section>
 </section>

@@ -43,13 +43,15 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">ArgueFlow Code Reference</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#cli">CLI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules.html#module-argueflow.data.tokenized_dataset">Data</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-argueflow.data.argue_module">Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.data.argue_module.FeedbackPrize2DataModule"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2DataModule</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.data.data_preparation.format_discourses"><code class="docutils literal notranslate"><span class="pre">format_discourses()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.data.data_preparation.prepare_data"><code class="docutils literal notranslate"><span class="pre">prepare_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.data.data_preparation.read_and_merge_essays"><code class="docutils literal notranslate"><span class="pre">read_and_merge_essays()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Dataset</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.data.tokenized_dataset.collate_fn"><code class="docutils literal notranslate"><span class="pre">collate_fn()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="modules.html#train">Train</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules.html#eval">Eval</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#module-argueflow.infer.infer">Infer</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.infer.infer.inference"><code class="docutils literal notranslate"><span class="pre">inference()</span></code></a></li>
 </ul>
@@ -58,10 +60,11 @@
 <li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.models.fp2_base_model.FeedbackPrize2Model"><code class="docutils literal notranslate"><span class="pre">FeedbackPrize2Model</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#train">Train</a></li>
 <li class="toctree-l2"><a class="reference internal" href="modules.html#module-argueflow.utils.dvc_utils">Utils</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.utils.dvc_utils.download_data"><code class="docutils literal notranslate"><span class="pre">download_data()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.utils.tokenizer.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.utils.logging_utils.setup_logging_from_cfg"><code class="docutils literal notranslate"><span class="pre">setup_logging_from_cfg()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#argueflow.utils.tokenizer.load_tokenizer"><code class="docutils literal notranslate"><span class="pre">load_tokenizer()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -103,12 +106,29 @@
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  
 </div>
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    argueflow.data.argue_module
+
+      <ul>
+        <li><a href="modules.html#module-argueflow.data.argue_module">module</a>
+</li>
+      </ul></li>
+      <li>
+    argueflow.data.data_preparation
+
+      <ul>
+        <li><a href="modules.html#module-argueflow.data.data_preparation">module</a>
+</li>
+      </ul></li>
       <li>
     argueflow.data.tokenized_dataset
 
@@ -123,6 +143,8 @@
         <li><a href="modules.html#module-argueflow.infer.infer">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     argueflow.models.fp2_base_model
 
@@ -130,8 +152,6 @@
         <li><a href="modules.html#module-argueflow.models.fp2_base_model">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     argueflow.utils.dvc_utils
 
@@ -175,11 +195,15 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#argueflow.data.argue_module.FeedbackPrize2DataModule">FeedbackPrize2DataModule (class in argueflow.data.argue_module)</a>
+</li>
       <li><a href="modules.html#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset">FeedbackPrize2Dataset (class in argueflow.data.tokenized_dataset)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#argueflow.models.fp2_base_model.FeedbackPrize2Model">FeedbackPrize2Model (class in argueflow.models.fp2_base_model)</a>
+</li>
+      <li><a href="modules.html#argueflow.data.data_preparation.format_discourses">format_discourses() (in module argueflow.data.data_preparation)</a>
 </li>
       <li><a href="modules.html#argueflow.models.fp2_base_model.FeedbackPrize2Model.forward">forward() (argueflow.models.fp2_base_model.FeedbackPrize2Model method)</a>
 </li>
@@ -209,6 +233,10 @@
     module
 
       <ul>
+        <li><a href="modules.html#module-argueflow.data.argue_module">argueflow.data.argue_module</a>
+</li>
+        <li><a href="modules.html#module-argueflow.data.data_preparation">argueflow.data.data_preparation</a>
+</li>
         <li><a href="modules.html#module-argueflow.data.tokenized_dataset">argueflow.data.tokenized_dataset</a>
 </li>
         <li><a href="modules.html#module-argueflow.infer.infer">argueflow.infer.infer</a>
@@ -228,7 +256,23 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#argueflow.data.argue_module.FeedbackPrize2DataModule.prepare_data">prepare_data() (argueflow.data.argue_module.FeedbackPrize2DataModule method)</a>
+
+      <ul>
+        <li><a href="modules.html#argueflow.data.data_preparation.prepare_data">(in module argueflow.data.data_preparation)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#argueflow.data.tokenized_dataset.FeedbackPrize2Dataset.prepare_dataset">prepare_dataset() (argueflow.data.tokenized_dataset.FeedbackPrize2Dataset method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#argueflow.data.data_preparation.read_and_merge_essays">read_and_merge_essays() (in module argueflow.data.data_preparation)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -236,7 +280,27 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#argueflow.data.argue_module.FeedbackPrize2DataModule.setup">setup() (argueflow.data.argue_module.FeedbackPrize2DataModule method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="modules.html#argueflow.utils.logging_utils.setup_logging_from_cfg">setup_logging_from_cfg() (in module argueflow.utils.logging_utils)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#argueflow.data.argue_module.FeedbackPrize2DataModule.train_dataloader">train_dataloader() (argueflow.data.argue_module.FeedbackPrize2DataModule method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="modules.html#argueflow.data.argue_module.FeedbackPrize2DataModule.val_dataloader">val_dataloader() (argueflow.data.argue_module.FeedbackPrize2DataModule method)</a>
 </li>
   </ul></td>
 </tr></table>
