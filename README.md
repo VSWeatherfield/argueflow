@@ -1,4 +1,4 @@
-# ArgueFlow — MLOps-пайплайн для классификации аргументов
+# ArgueFlow — классификатор эффективности аргументов
 
 ## Содержание
 
@@ -31,7 +31,7 @@
 
 ## Описание проекта
 
-**ArgueFlow** — это MLOps-пайплайн для задачи классификации аргументов в эссе
+**ArgueFlow** — это пайплайн для задачи классификации аргументов в эссе
 школьников, построенный по мотивам соревнования
 [Feedback Prize - Predicting Effective Arguments (Kaggle)](https://www.kaggle.com/competitions/feedback-prize-effectiveness).
 
